@@ -1,5 +1,6 @@
 from core.voice import falar, nome_assistente
 from core.utils import abrir_programa, obter_cotacao_dolar, CAMINHOS
+from skills import reminder
 import pyautogui
 import webbrowser
 
@@ -65,6 +66,11 @@ def executar_comando(comando):
 
         elif "obrigado" in comando or "obrigada" in comando:
             falar("Conte comigo! Estou aqui para ajudar.")
+
+        elif reminder.can_handle(comando):
+            resposta = reminder.execute(comando)
+            falar(resposta)
+            return resposta
 
         else:
             falar("Desculpe, não entendi o comando.")

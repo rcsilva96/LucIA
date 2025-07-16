@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import pyttsx3
+import simpleaudio as sa
 
 reconhecedor = sr.Recognizer()
 engine = pyttsx3.init()
@@ -14,9 +15,15 @@ def falar(texto):
     engine.say(texto)
     engine.runAndWait()
 
+def tocar_beep():
+    wave_obj = sa.WaveObject.from_wave_file("assets/sounds/beep.wav")
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
+
 def ouvir_microfone():
     with sr.Microphone() as source:
         print("Aguardando comando...")
+        #tocar_beep()
         reconhecedor.adjust_for_ambient_noise(source)
         audio = reconhecedor.listen(source, timeout=5)
     try:
