@@ -5,11 +5,17 @@ import pyautogui
 import subprocess
 import time
 import requests
+import threading
+
 from datetime import datetime
+from tkinter import Tk, Label, PhotoImage
+from PIL import Image, ImageTk
 
 # Configurações iniciais
 nome_assistente = "lúcia"
 ativado = False
+avatar_path = "assets/image/lucia.jpg"
+avatar_window = None
 
 # Inicializa o reconhecedor de voz e o sintetizador de fala
 reconhecedor = sr.Recognizer()
@@ -63,6 +69,48 @@ def abrir_programa(caminho):
     except Exception as e:
         print(f"Erro ao abrir programa: {e}")
         return False
+
+# Interface gráfica para o avatar da LucIA
+
+class AvatarWindow:
+    def __init__(self, image_path):
+        self.root = Tk()
+        self.root.title("LucIA")
+        self.root.resizable(False, False)
+
+        # Carrega a imagem do avatar
+        try:
+            img = Image.open(image_path)
+            img = img.resize((300, 300), Image.LANCZOS)
+            self.avatar_img = ImageTk.PhotoImage(img)
+
+            self.label = Label(self.root, image=self.avatar_img)
+            self.label.pack()
+
+            # Status (opcional)
+            self.status_label = Label(self.root, text="Pronta para ajudar!", font=('Arial', 12))
+            self.status_label.pack(pady=10)
+
+        except Exception as e:
+            print(f"Erro ao carregar imagem: {e}")
+            self.root.destroy()
+            raise
+
+    def update_status(self, text):
+        self.status_label.config(text=text)
+
+    def run(self):
+        self.root.mainloop()
+
+def iniciar_interface():
+    global avatar_window
+    avatar_window = AvatarWindow(avatar_path)
+    avatar_window.run()
+
+# Inicie a janela em uma thread separada
+threading.Thread(target=iniciar_interface, daemon=True).start()
+
+# Coração da LucIA - Executar comandos
 
 def executar_comando(comando):
     """Executa ações baseadas no comando de voz"""
