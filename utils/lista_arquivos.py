@@ -1,3 +1,5 @@
+# Utilidade independente para listar arquivos e diretórios de forma hierárquica, não relacionada à LucIA
+
 import os
 
 def listar_arquivos(diretorio, prefixo=""):
