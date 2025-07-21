@@ -17,20 +17,3 @@ def abrir_programa(caminho):
     except Exception as e:
         print(f"Erro ao abrir programa: {e}")
         return False
-
-def obter_cotacao_dolar():
-    try:
-        url = "https://economia.awesomeapi.com.br/json/last/USD-BRL"
-        response = requests.get(url)
-        dados = response.json()
-        cotacao = float(dados['USDBRL']['bid'])
-        variacao = float(dados['USDBRL']['varBid'])
-        hora_consulta = dados['USDBRL']['create_date']
-        return {
-            'cotacao': cotacao,
-            'variacao': variacao,
-            'hora': hora_consulta
-        }
-    except Exception as e:
-        print(f"Erro ao obter cotação: {e}")
-        return None

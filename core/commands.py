@@ -1,6 +1,7 @@
 from core.voice import falar, nome_assistente
-from core.utils import abrir_programa, obter_cotacao_dolar, CAMINHOS
-from skills import reminder
+from core.utils import abrir_programa, CAMINHOS
+from skills import reminder, finances
+from skills.persona import thankyou
 import pyautogui
 import webbrowser
 
@@ -57,15 +58,18 @@ def executar_comando(comando):
         elif "hora do show" in comando:
             falar("Bora codar!") if abrir_programa(CAMINHOS['vscode']) else falar("Não encontrei o VS Code.")
 
-        elif "cotação do dólar" in comando or "valor do dólar" in comando:
-            dados = obter_cotacao_dolar()
-            if dados:
-                falar(f"A cotação atual do dólar é R$ {dados['cotacao']:.2f}. Variação de {dados['variacao']:.2f}%.")
-            else:
-                falar("Não consegui obter a cotação agora.")
+        elif finances.can_handle(comando):
+            resposta = finances.execute(comando)
+            falar(resposta)
+            return resposta
 
-        elif "obrigado" in comando or "obrigada" in comando:
-            falar("Conte comigo! Estou aqui para ajudar.")
+        # elif "obrigado" in comando or "obrigada" in comando:
+        #     falar("Conte comigo! Estou aqui para ajudar.")
+
+        elif thankyou.detectar_agradecimento(comando):
+            resposta = thankyou.responder_agradecimento()
+            falar(resposta)
+            return resposta
 
         elif reminder.can_handle(comando):
             resposta = reminder.execute(comando)
