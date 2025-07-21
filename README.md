@@ -20,7 +20,7 @@ LucIA é uma assistente pessoal em Python, modular e extensível, que responde p
 
 1. Clone o repositório  
 ```bash
-git clone https://github.com/seuusuario/lucia.git
+git clone https://github.com/rcsilva96/lucia.git
 cd lucia
 ```
 
@@ -51,7 +51,7 @@ lucia/
 ├── core/              # Código principal do motor de voz e comandos
 ├── interface/         # Código da interface gráfica (avatar, janelas)
 ├── skills/            # Funcionalidades modulares (finanças, persona, lembretes)
-├── test/              # Testes automatizados
+├── test/              # Testes diversos
 ├── main.py            # Script principal para rodar a assistente
 ├── requirements.txt   # Dependências do projeto
 └── README.md          # Este arquivo
